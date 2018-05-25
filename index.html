@@ -86,26 +86,39 @@
                 constructor() {
                     super()
 
-                    let shadow = this.attachShadow({mode: 'open'})
+                    var shadow = this.shadow = this.attachShadow({mode: 'open'})
 
-                    let tagsTemplate = document.getElementById('keyword-tags-template')
+                    var tagsTemplate = this.tagsTemplate = document.getElementById('keyword-tags-template')
                     shadow.appendChild(tagsTemplate.content.cloneNode(true))
 
-                    var keywordTagsContainer = shadow.querySelector(".keyword-tags")
-                    let tagTemplate = document.getElementById('keyword-tag-template')
+                    var keywordTagsContainer = this.keywordTagsContainer = shadow.querySelector(".keyword-tags")
+                    var tagTemplate = this.tagTemplate = document.getElementById('keyword-tag-template')
 
                     var tagValues = this.getAttribute('tag-values')
                     tagValues = tagValues.split(',')
-                    tagValues.forEach(function(tagValue) {
+                    tagValues.forEach((tagValue) => {
                         tagValue = tagValue.trim()
-                        var tagNode = tagTemplate.content.cloneNode(true)
-                        var keywordNode = tagNode.querySelector(".keyword")
-                        keywordNode.textContent = tagValue
-                        keywordTagsContainer.appendChild(
-                            tagNode
-                        )
+                        this.addTag(tagValue)
                     })
 
+                    var input = this.input = shadow.querySelector("input")
+                    input.addEventListener("keydown", (e) => {
+                        if(e.key === "Enter" || e.key === ",") {
+                            e.preventDefault() // stop comma from being added..
+                            this.addTag(input.value)
+                            input.value = ''
+                        }
+                    })
+
+                }
+
+                addTag(tagValue) {
+                    var tagNode = this.tagTemplate.content.cloneNode(true)
+                    var keywordNode = tagNode.querySelector(".keyword")
+                    keywordNode.textContent = tagValue
+                    this.keywordTagsContainer.appendChild(
+                        tagNode
+                    )
                 }
 
                 // called when element is added to DOM
