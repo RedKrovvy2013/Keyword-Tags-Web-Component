@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+
+    <body>
+
+        <keyword-tags value="Billions, Westworld"></keyword-tags>
+
+        <keyword-tags>
+            <keyword-tag>
+                <span slot="keyword">Billions</span>
+            </keyword-tag>
+            <keyword-tag>
+                <span slot="keyword">Westworld</span>
+            </keyword-tag>
+        </keyword-tags>
+
+        <template id="keyword-tag-template">
+            <style>
+                .keyword-tag {
+                    display: flex;
+                }
+                .keyword {
+                    font-size: .5em;
+                }
+                .delete-btn {
+                    width: 1.3em;
+                    height: 1.3em;
+                    background: url(close.svg) center center no-repeat;
+                    background-size: 100% 100%;
+                }
+            </style>
+            <div class="keyword-tag">
+                <p class="keyword">
+                    <slot name="keyword">default text</slot>
+                </p>
+                <button class="delete-btn" type="button"></button>
+            </div>
+        </template>
+
+        <template id="keyword-tags-template">
+            <style>
+                * {
+                    font-size: inherit;
+                }
+                .keyword-tags {
+                    font-size: 50px;
+                    font-family: sans-serif;
+                    color: red;
+                }
+                .keyword-tags .keyword-tag {
+                    color: blue;
+                }
+            </style>
+            <div class="keyword-tags">
+            </div>
+            <input class="keyword-input" type="text">
+        </template>
+
+        <script>
+
+            class KeywordTag extends HTMLElement {
+                constructor() {
+                    super()
+
+                    let shadow = this.attachShadow({mode: 'open'})
+
+                    let template = document.getElementById('keyword-tag-template')
+                    shadow.appendChild(template.content.cloneNode(true))
+                    // this.appendChild(template.content.cloneNode(true))
+
+                    // NOTE: shadow DOM only way to get slots to work
+                    //       would not have keyword-tag do shadow DOM otherwise
+
+                }
+            }
+            customElements.define('keyword-tag', KeywordTag)
+
+            class KeywordTags extends HTMLElement {
+                constructor() {
+                    super()
+
+                    let shadow = this.attachShadow({mode: 'open'})
+
+                    let template = document.getElementById('keyword-tags-template')
+                    shadow.appendChild(template.content.cloneNode(true))
+
+                    var shadowTagsContainer = shadow.querySelector(".keyword-tags")
+                    for(var i=0; i < this.childNodes.length; ++i) {
+                        var childNode = this.childNodes[i]
+                        if(childNode.nodeName === "KEYWORD-TAG") {
+                            shadowTagsContainer.appendChild(childNode)
+                        }
+                    }
+
+                    // console.log(shadow.childNodes)
+                }
+            }
+            customElements.define('keyword-tags', KeywordTags)
+
+        </script>
+
+    </body>
+</html>
