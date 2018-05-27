@@ -23,10 +23,11 @@
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - -->
 
         <template id="keyword-tag-template">
-            <button class="keyword-tag">
+            <button class="keyword-tag" type="button">
                 <p class="keyword">
+                    <!-- value inserts here -->
                 </p>
-                <div class="delete-icon" type="button"></div>
+                <div class="delete-icon"></div>
             </button>
         </template>
 
@@ -57,6 +58,7 @@
                     display: flex;
                     align-items: center;
                     padding: .5rem;
+                    background-color: white;
                     border: 1px solid lightgrey;
                     border-radius: .5rem;
                     box-shadow: 0 .2rem .1rem rgba(0,0,0,0.1);
@@ -108,22 +110,47 @@
                             this.addTag(input.value)
                             input.value = ''
                         }
+                        if(e.key === "Backspace" && input.value === '') {
+                            this.removeLastTag()
+                        }
                     })
 
                 }
 
                 addTag(tagValue) {
-                    var tagNode = this.tagTemplate.content.cloneNode(true)
-                    var keywordNode = tagNode.querySelector(".keyword")
+                    var tag_docFrag = this.tagTemplate.content.cloneNode(true)
+                    var keywordNode = tag_docFrag.querySelector(".keyword")
                     keywordNode.textContent = tagValue
                     this.keywordTagsContainer.appendChild(
-                        tagNode
+                        tag_docFrag
                     )
+                    // cloned node is a document fragment, and can't have event listeners attached
+                    //     - more info: https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment
+                    var tagNode = this.getLastTag()
+                    // so, get newly added node and add event listener like so
+                    tagNode.addEventListener("click", (e) => {
+                        this.removeTag(tagNode)
+                    })
+                }
+
+                removeTag(tagNode) {
+                    this.keywordTagsContainer.removeChild(tagNode)
+                }
+
+                removeLastTag() {
+                    var lastTag = this.getLastTag()
+                    if(lastTag !== null)
+                        this.removeTag(lastTag)
+                }
+
+                getLastTag() {
+                    var tagNodes = this.keywordTagsContainer.querySelectorAll('.keyword-tag')
+                    return tagNodes.length ? tagNodes[tagNodes.length-1] : null
                 }
 
                 // called when element is added to DOM
                 connectedCallback() {
-                    // coouuld do creation of pre-arranged keyword tags here..
+                    // coouuld do creation of pre-set keyword tags here..
                 }
 
             }

@@ -15,3 +15,5 @@ https://stackoverflow.com/questions/25211111/can-shadow-dom-elements-inherit-css
 ## TODO:
 
   - test that things work right with multiple component instances
+  - bug: input changes height if no tags in it
+  - bug: can add an empty tag
