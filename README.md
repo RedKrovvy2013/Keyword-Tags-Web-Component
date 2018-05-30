@@ -1,9 +1,9 @@
 
 # Keyword Tags using Browser Web Components
 
-[Live Demo](http://www.mikecirone.com/keyword-tags/)
+This is my first tryout of browser web components. I made a keyword tags component, and did a [YouTube presentation](https://www.youtube.com/watch?v=ZhbM1pG38eg&feature=youtu.be) on my findings!
 
-[YouTube Presentation](https://www.youtube.com/watch?v=ZhbM1pG38eg&feature=youtu.be)
+[Live Demo](http://www.mikecirone.com/keyword-tags/)
 
 ## Web Components - 3 Main Aspects
 
