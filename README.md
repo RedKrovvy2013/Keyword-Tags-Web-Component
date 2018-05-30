@@ -1,6 +1,9 @@
 
 # Keyword Tags using Browser Web Components
 
+[Live Demo](http://www.mikecirone.com/keyword-tags/)
+
+[YouTube Presentation](https://www.youtube.com/watch?v=ZhbM1pG38eg&feature=youtu.be)
 
 ## Web Components - 3 Main Aspects
 
